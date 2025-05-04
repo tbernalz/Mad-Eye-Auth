@@ -1,26 +1,20 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { Injectable } from '@nestjs/common';
+import { FirebaseService } from 'src/firebase/firebase.service';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
+  constructor(private firebaseService: FirebaseService) {}
 
-  issueJwt(firebaseUser: any) {
-    const payload = {
-      sub: firebaseUser.uid,
-      email: firebaseUser.email,
-    };
-
-    return {
-      accessToken: this.jwtService.sign(payload),
-    };
-  }
-
-  verifyJwt(token: string) {
+  async createWithPassword(loginDto: LoginDto): Promise<string> {
     try {
-      return this.jwtService.verify(token);
-    } catch {
-      throw new UnauthorizedException('Invalid internal token');
+      const user = await this.firebaseService.auth.createUser(loginDto);
+      return user.uid;
+    } catch (error) {
+      console.error(
+        `Error while creating an user with password: ${error.message}`,
+      );
+      throw error;
     }
   }
 }
