@@ -22,4 +22,8 @@ export class FirebaseService implements OnModuleInit {
     }
     this.auth = admin.auth();
   }
+
+  async generateSetPasswordUlr(email: string) {
+    return await admin.auth().generatePasswordResetLink(email);
+  }
 }
