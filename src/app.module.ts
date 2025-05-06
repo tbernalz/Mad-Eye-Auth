@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { RabbitMQSharedModule } from './rabbitmq/rabbitmq.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { RabbitMQSharedModule } from './rabbitmq/rabbitmq.module';
     AuthModule,
     FirebaseModule,
     RabbitMQSharedModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
