@@ -47,20 +47,18 @@ export class UserService {
       passwordSetUri,
     };
 
-    const message: UserRequestEventDto = {
-      eventId: '',
-      payload: userSignInUriDto,
-      headers: {
-        userId: '',
-        eventType: UserEventTypeEnum.FIRST_SIGNIN,
-        timestamp: new Date().toISOString(),
-      },
+    const message: UserRequestEventDto['payload'] = userSignInUriDto;
+    const headers: UserRequestEventDto['headers'] = {
+      userId: '',
+      eventType: UserEventTypeEnum.FIRST_SIGNIN,
+      timestamp: new Date().toISOString(),
     };
 
     await this.userPublisher.publishUserEvent(
       UserService.rabbitmqConfig.exchanges.publisher.notification,
       UserService.rabbitmqConfig.routingKeys.notificationRequest,
       message,
+      headers,
     );
   }
 }
