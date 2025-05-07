@@ -6,10 +6,9 @@ import { LoginDto } from './dto/login.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('create-with-password')
-  async login(@Body() loginDto: LoginDto) {
-    console.log('inside auth/login POST!!!!!!!');
-    const token = await this.authService.createWithPassword(loginDto);
+  @Post('login')
+  async loginWithEmailAndPassword(@Body() loginDto: LoginDto) {
+    const token = await this.authService.loginWithEmailAndPassword(loginDto);
     return { accessToken: token };
   }
 }

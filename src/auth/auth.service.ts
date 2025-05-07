@@ -4,7 +4,21 @@ import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(private readonly firebaseService: FirebaseService) {}
+
+  async loginWithEmailAndPassword(loginDto: LoginDto): Promise<string> {
+    try {
+      const token = this.firebaseService.signInWithEmailAndPassword(
+        loginDto.email,
+        loginDto.password,
+      );
+
+      return token;
+    } catch (error) {
+      console.error(`Error during loginWithEmailAndPassword: ${error.message}`);
+      throw error;
+    }
+  }
 
   async createWithPassword(loginDto: LoginDto): Promise<string> {
     try {
