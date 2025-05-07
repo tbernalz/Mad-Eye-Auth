@@ -25,6 +25,7 @@ export class UserService {
       switch (operation) {
         case UserEventTypeEnum.FIRST_SIGNIN:
           await this.sendSetPassword(message.email);
+          break;
 
         default:
           throw new Error(`Unsupported operation: ${operation}`);

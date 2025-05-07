@@ -14,9 +14,9 @@ export class UserConsumer {
   constructor(private readonly userService: UserService) {}
 
   @RabbitSubscribe({
-    exchange: UserConsumer.rabbitmqConfig.exchanges.consumer.user,
-    routingKey: UserConsumer.rabbitmqConfig.routingKeys.userRequest,
-    queue: UserConsumer.rabbitmqConfig.queues.userRequest,
+    exchange: UserConsumer.rabbitmqConfig.exchanges.consumer.auth,
+    routingKey: UserConsumer.rabbitmqConfig.routingKeys.authRequest,
+    queue: UserConsumer.rabbitmqConfig.queues.authRequest,
     queueOptions: {
       durable: true,
       deadLetterExchange: 'users_request_dlx',
@@ -29,7 +29,7 @@ export class UserConsumer {
     userRequestEventDto: UserRequestEventDto,
   ): Promise<void> {
     this.logger.log(
-      `incoming message to the exchange: ${UserConsumer.rabbitmqConfig.exchanges.consumer.user} queue: ${JSON.stringify(UserConsumer.rabbitmqConfig.queues.userCreate)} with routingKey: ${UserConsumer.rabbitmqConfig.routingKeys.userCreate}`,
+      `incoming message to the exchange: ${UserConsumer.rabbitmqConfig.exchanges.consumer.auth}. routingKey: ${UserConsumer.rabbitmqConfig.routingKeys.authRequest}. queue: ${UserConsumer.rabbitmqConfig.queues.authRequest}`,
     );
 
     const userId = userRequestEventDto.headers?.userId;
@@ -37,7 +37,7 @@ export class UserConsumer {
     const message = userRequestEventDto.payload;
 
     this.logger.log(
-      `Received user request for userId: ${userId}, operation: ${operation}, message: ${message}`,
+      `Received user request for userId: ${userId}, operation: ${operation}, message: ${JSON.stringify(message)}`,
     );
 
     await this.userService.handleUserEvents(userId, operation, message);
