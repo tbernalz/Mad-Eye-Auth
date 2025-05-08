@@ -1,5 +1,4 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import * as admin from 'firebase-admin';
 import { firstValueFrom } from 'rxjs';
@@ -8,11 +7,7 @@ import { firstValueFrom } from 'rxjs';
 export class FirebaseService implements OnModuleInit {
   public auth: admin.auth.Auth;
   private apiKey: string;
-
-  constructor(
-    private configService: ConfigService,
-    private readonly httpService: HttpService,
-  ) {
+  constructor(private readonly httpService: HttpService) {
     this.apiKey = process.env.FIREBASE_API_KEY || '';
   }
 
@@ -20,11 +15,9 @@ export class FirebaseService implements OnModuleInit {
     if (!admin.apps.length) {
       admin.initializeApp({
         credential: admin.credential.cert({
-          projectId: this.configService.get('firebase.projectId'),
-          clientEmail: this.configService.get('firebase.clientEmail'),
-          privateKey: this.configService
-            .get('firebase.privateKey')
-            ?.replace(/\\n/g, '\n'),
+          projectId: process.env.FIREBASE_PROJECT_ID,
+          clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+          privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
         }),
       });
     }
@@ -54,6 +47,18 @@ export class FirebaseService implements OnModuleInit {
         `Firebase sign-in failed: ${error.response?.data?.error?.message || error.message}`,
       );
       throw new Error('Invalid email or password');
+    }
+  }
+
+  async createPasswordless(email: string): Promise<any> {
+    try {
+      const user = await this.auth.createUser({
+        email,
+      });
+      return user.uid;
+    } catch (error) {
+      console.error(`Error during loginWithoutPassword: ${error.message}`);
+      throw error;
     }
   }
 

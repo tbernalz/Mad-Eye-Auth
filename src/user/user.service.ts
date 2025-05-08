@@ -39,6 +39,7 @@ export class UserService {
   }
 
   async sendSetPassword(email: string) {
+    await this.firebaseService.createPasswordless(email);
     const passwordSetUri =
       await this.firebaseService.generateSetPasswordUlr(email);
 
