@@ -24,7 +24,7 @@ export class UserService {
     try {
       switch (operation) {
         case UserEventTypeEnum.FIRST_SIGNIN:
-          await this.sendSetPassword(message.email);
+          await this.sendSetPassword(message.email, message.documentNumber);
           break;
 
         default:
@@ -38,8 +38,8 @@ export class UserService {
     }
   }
 
-  async sendSetPassword(email: string) {
-    await this.firebaseService.createPasswordless(email);
+  async sendSetPassword(email: string, documentNumber: string) {
+    await this.firebaseService.createPasswordless(email, documentNumber);
     const passwordSetUri =
       await this.firebaseService.generateSetPasswordUlr(email);
 

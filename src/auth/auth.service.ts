@@ -31,4 +31,8 @@ export class AuthService {
       throw error;
     }
   }
+
+  async verifyIdToken(idToken: string) {
+    return await this.firebaseService.auth.verifyIdToken(idToken);
+  }
 }
