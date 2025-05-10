@@ -22,7 +22,11 @@ export class AuthService {
 
   async createWithPassword(loginDto: LoginDto): Promise<string> {
     try {
-      const user = await this.firebaseService.auth.createUser(loginDto);
+      const user = await this.firebaseService.createWithPassword(
+        loginDto.email,
+        loginDto.password,
+        loginDto.documentNumber,
+      );
       return user.uid;
     } catch (error) {
       console.error(

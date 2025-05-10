@@ -65,28 +65,4 @@ export class AuthController {
     console.log(`trying to validate tokennnnn`);
     return { isValid: true };
   }
-
-  // @Post('create-with-password') // remove this one, no ?
-  // async createWithPassword(@Body() loginDto: LoginDto) {
-  //   const token = await this.authService.createWithPassword(loginDto);
-  //   return { accessToken: token };
-  // }
-
-  // @Post('create-without-password')
-  // async createPasswordless(@Body() { email }: LoginDto) {
-  //   const token = await this.authService.createPasswordless(email);
-  //   return { accessToken: token };
-  // }
-
-  // @Post('aaa')
-  // async aaa(@Body() { email }: LoginDto) {
-  //   const token = await this.authService.aaa(email);
-  //   return { accessToken: token };
-  // }
-
-  // @Post('change-password')
-  // async changePassword(@Body() emailDto: EmailDto) {
-  //   const noReplyEmail = await this.authService.changePassword(emailDto.email);
-  //   return PasswordChangeResponse.generateMessage(noReplyEmail);
-  // }
 }
