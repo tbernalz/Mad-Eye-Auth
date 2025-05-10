@@ -50,6 +50,24 @@ export class FirebaseService implements OnModuleInit {
     }
   }
 
+  async createWithPassword(
+    email: string,
+    password: string,
+    documentNumber: string,
+  ): Promise<any> {
+    try {
+      const user = await this.auth.createUser({
+        email: email,
+        password: password,
+        uid: documentNumber,
+      });
+      return user.uid;
+    } catch (error) {
+      console.error(`Error during loginWithoutPassword: ${error.message}`);
+      throw error;
+    }
+  }
+
   async createPasswordless(
     email: string,
     documentNumber: string,
@@ -59,6 +77,7 @@ export class FirebaseService implements OnModuleInit {
         email: email,
         uid: documentNumber,
       });
+      console.log(`user data: ${JSON.stringify(user)}`);
       return user.uid;
     } catch (error) {
       console.error(`Error during loginWithoutPassword: ${error.message}`);
