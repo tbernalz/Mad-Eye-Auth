@@ -22,9 +22,12 @@ export class AuthController {
   @All('introspect')
   async introspect(@Req() req: Request, @Res() res: Response) {
     const authHeader = req.headers['authorization'] || '';
+    console.log(`authHeader: ${authHeader}`);
     const idToken = authHeader.startsWith('Bearer ')
       ? authHeader.slice(7)
       : null;
+
+    console.log(`idToken: ${idToken}`);
 
     if (!idToken) {
       return {
