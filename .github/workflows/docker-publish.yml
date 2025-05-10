@@ -6,8 +6,8 @@ on:
       - main
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
-  DEPLOYMENT_NAME: madeye-users-system
-  IMAGE_NAME: madeye-users
+  DEPLOYMENT_NAME: madeye-auth-system
+  IMAGE_NAME: madeye-auth
   DOCKERFILE_LOCATION: .
 jobs:
   generate-version:
