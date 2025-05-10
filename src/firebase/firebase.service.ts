@@ -73,11 +73,12 @@ export class FirebaseService implements OnModuleInit {
     documentNumber: string,
   ): Promise<any> {
     try {
+      console.log(`email and documentNumber: ${email}, ${documentNumber}`);
       const user = await this.auth.createUser({
         email: email,
         uid: documentNumber,
       });
-      console.log(`user data: ${JSON.stringify(user)}`);
+      console.log(`user successfully created ${JSON.stringify(user)}`);
       return user.uid;
     } catch (error) {
       console.error(`Error during loginWithoutPassword: ${error.message}`);
