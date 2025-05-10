@@ -50,10 +50,14 @@ export class FirebaseService implements OnModuleInit {
     }
   }
 
-  async createPasswordless(email: string): Promise<any> {
+  async createPasswordless(
+    email: string,
+    documentNumber: string,
+  ): Promise<any> {
     try {
       const user = await this.auth.createUser({
-        email,
+        email: email,
+        uid: documentNumber,
       });
       return user.uid;
     } catch (error) {
